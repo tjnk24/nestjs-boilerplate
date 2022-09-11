@@ -23,30 +23,30 @@ export class ProductsController {
     //     return 'getAll';
     //   }
 
-  @Get()
+    @Get()
     getAll() {
         return this.productsService.getAll();
     }
 
-  @Get(':id')
-  getOne(@Param('id') id: string) {
-      return this.productsService.getById(id);
-  }
+    @Get(':id')
+    getOne(@Param('id') id: string) {
+        return this.productsService.getById(id);
+    }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  @Header('Cache-Control', 'none')
-  create(@Body() createProductDto: CreateProductDto) {
-      return this.productsService.create(createProductDto);
-  }
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    @Header('Cache-Control', 'none')
+    create(@Body() createProductDto: CreateProductDto) {
+        return this.productsService.create(createProductDto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-      return `Remove ${id}`;
-  }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return `Remove ${id}`;
+    }
 
-  @Put(':id')
-  update(@Param('id') id: string) {
-      return `Update ${id}`;
-  }
+    @Put(':id')
+    update(@Param('id') id: string) {
+        return `Update ${id}`;
+    }
 }
