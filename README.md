@@ -1,3 +1,7 @@
-nestjs boilerplate
+# nestjs-boilerplate
 
-requires node v16
+Runs on node 18.13.0
+
+- Typescript
+- ESLint
+- NestJs

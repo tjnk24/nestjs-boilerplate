@@ -6,15 +6,19 @@ module.exports = {
     'eslint-comments',
   ],
   env: {
-    es6: true,
     node: true,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    project: 'tsconfig.json',
     ecmaVersion: 2018,
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
-    warnOnUnsupportedTypeScriptVersion: false,
-    project: './tsconfig.json',
+  },
+  settings: {
+    'import/parsers': {
+        '@typescript-eslint/parser': ['.ts'],
+    },
   },
   extends: [
     'eslint:recommended',
@@ -47,6 +51,12 @@ module.exports = {
         4,
         {
             SwitchCase: 1,
+            MemberExpression: 1,
+            ignoredNodes: [
+                'FunctionExpression > .params[decorators.length > 0]',
+                'FunctionExpression > .params > :matches(Decorator, :not(:first-child))',
+                'ClassBody.body > PropertyDefinition[decorators.length > 0] > .key',
+            ],
         },
     ],
     'max-len': [
@@ -107,7 +117,7 @@ module.exports = {
                 'multiline': true,
                 'minProperties': 3,
             },
-        }
+        },
     ],
 
     // TypeScript
@@ -134,51 +144,64 @@ module.exports = {
             ignoreRestSiblings: true,
         },
     ],
-    "@typescript-eslint/member-delimiter-style": [
-        "error",
+    '@typescript-eslint/member-delimiter-style': [
+        'error',
         {
-            "multiline": {
-                "delimiter": "semi",
-                "requireLast": true
+            'multiline': {
+                'delimiter': 'semi',
+                'requireLast': true,
             },
-            "singleline": {
-                "delimiter": "semi",
-                "requireLast": false
-            }
-        }
+            'singleline': {
+                'delimiter': 'semi',
+                'requireLast': false,
+            },
+        },
     ],
     '@typescript-eslint/no-unsafe-assignment': 0,
     '@typescript-eslint/no-unsafe-call': 0,
     '@typescript-eslint/no-unsafe-return': 0,
-    '@typescript-eslint/no-unsafe-assignment': 0,
     '@typescript-eslint/no-unsafe-member-access': 0,
+    '@typescript-eslint/interface-name-prefix': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
 
     //imports
     'import/order': [
       'warn',
       {
-        groups: [
-            ['builtin', 'external'],
-            'internal',
-            ['parent', 'sibling'],
-            'index',
+          groups: [
+              ['builtin', 'external'],
+              'internal',
+              'parent',
+              'sibling',
+              'index',
+          ],
+          pathGroups: [
+              {
+                  pattern: '*__*',
+                  group: 'internal',
+              },
+              {
+                  pattern: '*__*/**',
+                  group: 'internal',
+              },
+          ],
+          pathGroupsExcludedImportTypes: ['internal'],
+          alphabetize: {
+              order: 'asc',
+              caseInsensitive: true,
+          },
+          'newlines-between': 'always',
+      },
+    ],
+    'no-restricted-imports': [
+      'error',
+      {
+        'paths': [
+          {
+              'name': 'lodash',
+              'message': 'Use "import utilName from \'lodash/utilName\'" instead',
+          },
         ],
-        pathGroups: [
-            {
-                pattern: '*__*',
-                group: 'internal',
-            },
-            {
-                pattern: '*__*/**',
-                group: 'internal',
-            },
-        ],
-        pathGroupsExcludedImportTypes: ['internal'],
-        alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-        },
-        'newlines-between': 'always',
       },
     ],
   },
