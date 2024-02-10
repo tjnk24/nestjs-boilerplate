@@ -114,13 +114,15 @@ export class AuthService {
     private async validateUser(userDto: CreateUserDto) {
         const user = await this.usersService.getByEmail(userDto.email);
 
-        const isPasswordEquals = await bcrypt.compare(userDto.password, user.passwordHash);
+        if (user) {
+            const isPasswordEquals = await bcrypt.compare(userDto.password, user.passwordHash);
 
-        if (user && isPasswordEquals) {
-            return user;
+            if (isPasswordEquals) {
+                return user;
+            }
         }
 
-        throw new UnauthorizedException({message: 'Incorrect email or password'});
+        throw new UnauthorizedException('Incorrect email or password');
     }
 
     private async validateRefreshSessions(user: User) {

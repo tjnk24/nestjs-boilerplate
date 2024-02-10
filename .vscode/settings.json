@@ -7,4 +7,5 @@
         "entrypoints",
         "zipcode"
     ],
+    "npm.exclude": "**/memento-reminder-backend/**",
 }
